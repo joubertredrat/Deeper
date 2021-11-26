@@ -6,5 +6,11 @@ namespace RedRat\Deeper;
 
 interface DeeperReflectorInterface
 {
-    public function getAttributes(): array;
+    public function getScalarAttributes(): array;
+
+    public function getObjectAttributes(): array;
+
+    public function hasScalarAttributes(): bool;
+
+    public function hasObjectAttributes(): bool;
 }
