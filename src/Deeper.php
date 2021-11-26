@@ -21,6 +21,18 @@ class Deeper implements DeeperInterface
             return false;
         }
 
+        $reflectionLeft = new DeeperReflector($this->objectLeft);
+        $reflectionRight = new DeeperReflector($this->objectRight);
+
+        if ($reflectionLeft->hasScalarAttributes() && $reflectionRight->hasScalarAttributes()) {
+            $attributesLeft = $reflectionLeft->getScalarAttributes();
+            $attributesRight = $reflectionRight->getScalarAttributes();
+
+            if ($attributesLeft !== $attributesRight) {
+                return false;
+            }
+        }
+
         return true;
     }
 

@@ -26,4 +26,13 @@ class DeeperTest extends TestCase
 
         self::assertFalse($deeper->isEqual());
     }
+
+    public function testIsNotEqualNotSameScalarValues(): void
+    {
+        $userOne = new UserFoo("Mrs Foo", 10);
+        $userTwo = new UserBar("Mrs Foo", 15);
+        $deeper = new Deeper($userOne, $userTwo);
+
+        self::assertFalse($deeper->isEqual());
+    }
 }
