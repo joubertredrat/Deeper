@@ -11,8 +11,19 @@ class DeeperTest extends TestCase
 {
     public function testIsEqual(): void
     {
-        $deeper = new Deeper();
+        $userOne = new UserFoo("Mrs Foo", 10);
+        $userTwo = new UserFoo("Mrs Foo", 10);
+        $deeper = new Deeper($userOne, $userTwo);
 
         self::assertTrue($deeper->isEqual());
+    }
+
+    public function testIsNotEqualNotSameClass(): void
+    {
+        $userOne = new UserFoo("Mrs Foo", 10);
+        $userTwo = new UserBar("Mrs Foo", 10);
+        $deeper = new Deeper($userOne, $userTwo);
+
+        self::assertFalse($deeper->isEqual());
     }
 }

@@ -35,10 +35,14 @@
     ],
     "tests": "vendor/phpunit/phpunit/phpunit -c tests/phpunit.unit.xml --no-coverage",
     "test": "vendor/phpunit/phpunit/phpunit -c tests/phpunit.unit.xml --no-coverage $@",
-    "coverage": "vendor/phpunit/phpunit/phpunit -c tests/phpunit.unit.xml",
-    "coverage-show": [
+    "coverage": "php -dxdebug.mode=coverage vendor/phpunit/phpunit/phpunit -c tests/phpunit.unit.xml",
+    "coverage-show-linux": [
       "@coverage",
       "xdg-open tests/_reports/unit/coverage/index.html"
+    ],
+    "coverage-show-mac": [
+      "@coverage",
+      "open tests/_reports/unit/coverage/index.html"
     ]
   }
 }
