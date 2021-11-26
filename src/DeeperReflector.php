@@ -16,19 +16,14 @@ class DeeperReflector implements DeeperReflectorInterface
         $this->processAttributes();
     }
 
-    public function getScalarAttributes(): array
-    {
-        return $this->scalarAttributes;
-    }
-
-    public function getObjectAttributes(): array
-    {
-        return $this->objectAttributes;
-    }
-
     public function hasScalarAttributes(): bool
     {
         return \count($this->scalarAttributes) > 0;
+    }
+
+    public function getScalarAttributes(): array
+    {
+        return $this->scalarAttributes;
     }
 
     public function hasObjectAttributes(): bool
@@ -36,23 +31,41 @@ class DeeperReflector implements DeeperReflectorInterface
         return \count($this->objectAttributes) > 0;
     }
 
+    public function getObjectAttributes(): array
+    {
+        return $this->objectAttributes;
+    }
+
     private function processAttributes(): void
     {
+        $attributes = $this->getAllAttributes(new \ReflectionObject($this->object));
+
         $this->scalarAttributes = [];
         $this->objectAttributes = [];
 
-        $reflectionObject = new \ReflectionObject($this->object);
-
-        foreach ($reflectionObject->getProperties() as $reflectionAttribute) {
-            $reflectionAttribute->setAccessible(true);
-            $value = $reflectionAttribute->getValue($this->object);
-
+        foreach ($attributes as $name => $value) {
             if (\is_object($value)) {
-                $this->objectAttributes[$reflectionAttribute->getName()] = $value;
+                $this->objectAttributes[$name] = $value;
                 continue;
             }
 
-            $this->scalarAttributes[$reflectionAttribute->getName()] = $value;
+            $this->scalarAttributes[$name] = $value;
         }
+    }
+
+    private function getAllAttributes(\ReflectionClass $reflectionClass): array
+    {
+        $attributes = [];
+
+        if ($reflectionClass->getParentClass() instanceof \ReflectionClass) {
+            $attributes = \array_merge($attributes, $this->getAllAttributes($reflectionClass->getParentClass()));
+        }
+
+        foreach ($reflectionClass->getProperties() as $reflectionAttribute) {
+            $reflectionAttribute->setAccessible(true);
+            $attributes[$reflectionAttribute->getName()] = $reflectionAttribute->getValue($this->object);
+        }
+
+        return $attributes;
     }
 }
