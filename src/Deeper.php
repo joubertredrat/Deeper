@@ -33,6 +33,18 @@ class Deeper implements DeeperInterface
             }
         }
 
+        if ($reflectionLeft->hasObjectAttributes() && $reflectionRight->hasObjectAttributes()) {
+            $attributesLeft = $reflectionLeft->getObjectAttributes();
+            $attributesRight = $reflectionRight->getObjectAttributes();
+
+            foreach ($attributesLeft as $nameLeft => $valueLeft) {
+                $deeper = new Deeper($valueLeft, $attributesRight[$nameLeft]);
+                if (!$deeper->isEqual()) {
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 
