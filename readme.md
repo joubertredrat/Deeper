@@ -23,7 +23,7 @@ $deeper->isEqual(); // if have same values on both objects, return TRUE
 
 ### Known limitations
 
-Some PHP core objects can't work properly.
+Some PHP core objects can't work properly, in this case, open an issue for we create a custom validation for this object.
 
 ### Author
 
