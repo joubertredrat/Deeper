@@ -50,4 +50,25 @@ class DeeperReflectorTest extends TestCase
         self::assertTrue($deeperReflector->hasScalarAttributes());
         self::assertTrue($deeperReflector->hasObjectAttributes());
     }
+
+    public function testGetMixedAttributesObjectWithParentClass(): void
+    {
+        $user = new UserLittleFoo(
+            "Mrs Foo",
+            10,
+            "Brazil",
+            new \DateTimeImmutable("2021-11-27 09:00:00")
+        );
+
+        $attributesScalarExpected = ["name" => "Mrs Foo", "age" => 10, "location" => "Brazil"];
+        $attributesObjectExpected = ["loginDate" => new \DateTimeImmutable("2021-11-27 09:00:00")];
+
+        $deeperReflector = new DeeperReflector($user);
+        $attributesScalarGot = $deeperReflector->getScalarAttributes();
+        $attributesObjectGot = $deeperReflector->getObjectAttributes();
+        self::assertEquals($attributesScalarExpected, $attributesScalarGot);
+        self::assertEquals($attributesObjectExpected, $attributesObjectGot);
+        self::assertTrue($deeperReflector->hasScalarAttributes());
+        self::assertTrue($deeperReflector->hasObjectAttributes());
+    }
 }

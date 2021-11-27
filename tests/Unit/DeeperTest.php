@@ -53,4 +53,23 @@ class DeeperTest extends TestCase
 
         self::assertFalse($deeper->isEqual());
     }
+
+    public function testIsNotEqualNotSameValuesIntoObjectDatetime(): void
+    {
+        $userOne = new UserLittleFoo(
+            "Mrs Foo",
+            10,
+            "Brazil",
+            new \DateTimeImmutable("2021-11-27 09:00:00")
+        );
+        $userTwo = new UserLittleFoo(
+            "Mrs Foo",
+            10,
+            "Brazil",
+            new \DateTimeImmutable("2021-11-27 09:05:00")
+        );
+        $deeper = new Deeper($userOne, $userTwo);
+
+        self::assertFalse($deeper->isEqual());
+    }
 }

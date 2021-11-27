@@ -38,6 +38,10 @@ class Deeper implements DeeperInterface
             $attributesRight = $reflectionRight->getObjectAttributes();
 
             foreach ($attributesLeft as $nameLeft => $valueLeft) {
+                if ($valueLeft instanceof \DateTimeInterface && $valueLeft != $attributesRight[$nameLeft]) {
+                    return false;
+                }
+
                 $deeper = new Deeper($valueLeft, $attributesRight[$nameLeft]);
                 if (!$deeper->isEqual()) {
                     return false;
