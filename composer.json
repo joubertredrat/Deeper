@@ -1,6 +1,6 @@
 {
   "name": "redrat/deeper",
-  "description": "Soon",
+  "description": "Deeper is a easy way to compare if 2 objects is equal based on values in these objects. This library is heavily inspired in Golang's reflect.DeepEqual()",
   "type": "library",
   "license": "MIT",
   "authors": [
